@@ -2,7 +2,7 @@
 using IdentityServer4.Test;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace IdentityServer
+namespace IdentityServerWeb
 {
     public class IdentityServerManager
     {
