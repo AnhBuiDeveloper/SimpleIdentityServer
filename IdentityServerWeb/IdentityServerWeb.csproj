@@ -8,6 +8,20 @@
 
   <ItemGroup>
     <PackageReference Include="IdentityServer4" Version="4.1.2" />
+    <PackageReference Include="Portable.BouncyCastle" Version="1.9.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="RSAKeyPair\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="RSAKeyPair\private.pem">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="RSAKeyPair\public.pem">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
