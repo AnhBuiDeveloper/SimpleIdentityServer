@@ -4,6 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using Org.BouncyCastle.OpenSsl;
 using System.Security.Cryptography;
 using Org.BouncyCastle.Pkcs;
+using Org.BouncyCastle.Crypto.Parameters;
 
 namespace IdentityServerWeb
 {
@@ -11,40 +12,44 @@ namespace IdentityServerWeb
     {
         public void Configure(IServiceCollection services)
         {
-            var fileStream = System.IO.File.OpenText("./RSAKeyPair/public.pem");
-            var pemReader = new Org.BouncyCastle.OpenSsl.PemReader(fileStream);
-            var keyParameter = (Org.BouncyCastle.Crypto.Parameters.RsaKeyParameters)pemReader.ReadObject();
+            //var fileStream = System.IO.File.OpenText("./RSAKeyPair/public.pem");
+            //var pemReader = new Org.BouncyCastle.OpenSsl.PemReader(fileStream);
+            //var keyParameter = (Org.BouncyCastle.Crypto.Parameters.RsaKeyParameters)pemReader.ReadObject();
 
-            var rsa = new RSACryptoServiceProvider();
-            rsa.ImportParameters(new RSAParameters
-            {
-                Modulus = keyParameter.Modulus.ToByteArrayUnsigned(),
-                Exponent = keyParameter.Exponent.ToByteArrayUnsigned()
-                //Modulus = Convert.FromBase64String(ReadFile("./RSAKeyPair/public.pem")),
-                //Exponent = Convert.FromBase64String(ReadFile("./RSAKeyPair/private.pem"))
-            });
+            //string pemString = "------BEGIN PUBLIC KEY-----\r\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAssktZhCxXFvBv9WqPnf8\r\nSpbmPXWLuJ0dg+GBL9h+sDXqH5q7PlUeXakMwX8tYxTydv+Wz4rMYzIIIzHmWn1Q\r\n7YO3QtyjAHLiuWZ+RmCcvdzhp3lvQ842nfqcC63VbU0tRBQU7BbOwHG5OV3UhIwA\r\nwCg3hiZnLt4LaG5Sa3uyqSFvA9Wg417XxFa1RqUhrQZjaRAEJA9196NjEQFUp+1h\r\n0RslzFkO7b9EYtBLfmarWoCH1ktrYNtN3O0ZysYqb0xFHTZ/BcZq1rmESzXnvk+T\r\n0qVhZIUffIJzGOMyD2rzXYMEw31yIKdNjwIkw747vJqjuWW9HBYvb6BjFeAgBq6H\r\nWwIDAQAB\r\n-----END PUBLIC KEY-----\r\n";
+            //using var reader = new StringReader(pemString);
+            //var pemReader = new PemReader(reader);
+            //var keyParameter = (Org.BouncyCastle.Crypto.Parameters.RsaKeyParameters)pemReader.ReadObject();
+
+            //var rsa = new RSACryptoServiceProvider();
+            //rsa.ImportParameters(new RSAParameters
+            //{
+            //    Modulus = keyParameter.Modulus.ToByteArrayUnsigned(),
+            //    Exponent = keyParameter.Exponent.ToByteArrayUnsigned()
+            //});
 
             services.AddIdentityServer()
                 .AddInMemoryClients(GetClients())
                 .AddInMemoryApiResources(GetApiResources())
                 .AddInMemoryApiScopes(GetScopes())
                 .AddTestUsers(GetUsers().ToList())
-                .AddSigningCredential(new SigningCredentials(new RsaSecurityKey(rsa), SecurityAlgorithms.RsaSha256));
+                //.AddSigningCredential(new SigningCredentials(new RsaSecurityKey(rsa), SecurityAlgorithms.RsaSha256));
+                .AddSigningCredential(CreateSigningCredential());
+        }
 
-            //string ReadFile(string filePath)
-            //{
-            //    var fileStream = System.IO.File.OpenText(filePath);
-            //    var pemReader = new Org.BouncyCastle.OpenSsl.PemReader(fileStream);
-            //    var KeyParameter = (Org.BouncyCastle.Crypto.AsymmetricKeyParameter)pemReader.ReadObject();
+        private SigningCredentials CreateSigningCredential()
+        {
+            var credentials = new SigningCredentials(GetSecurityKey(), SecurityAlgorithms.RsaSha256);
 
-            //    //using (var reader = File.OpenText(filePath))
-            //    //{
-            //    //    var key = new PemReader(reader).ReadPemObject();
-            //    //    return key.Modulus.ToBase64String();
-            //    //}
-
-            //    return string.Empty;
-            //}
+            return credentials;
+        }
+        private RSACryptoServiceProvider GetRSACryptoServiceProvider()
+        {
+            return new RSACryptoServiceProvider(2048);
+        }
+        private SecurityKey GetSecurityKey()
+        {
+            return new RsaSecurityKey(GetRSACryptoServiceProvider());
         }
 
         private IEnumerable<ApiScope> GetScopes()

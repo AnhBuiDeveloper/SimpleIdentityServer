@@ -1,5 +1,4 @@
-using IdentityServerWeb;
-using Microsoft.AspNetCore.Hosting.Server;
+using IdentityServer;
 
 var builder = WebApplication.CreateBuilder(args);
 
