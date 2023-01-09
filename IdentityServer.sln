@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityServerWeb - lab", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityServer", "IdentityServer\IdentityServer.csproj", "{B08F16C5-60D3-47FA-806C-C540BFEBB016}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceAPI", "ResourceAPI\ResourceAPI.csproj", "{1C96828A-BBFC-4549-9698-BC2430893ED2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{B08F16C5-60D3-47FA-806C-C540BFEBB016}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B08F16C5-60D3-47FA-806C-C540BFEBB016}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B08F16C5-60D3-47FA-806C-C540BFEBB016}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C96828A-BBFC-4549-9698-BC2430893ED2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C96828A-BBFC-4549-9698-BC2430893ED2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C96828A-BBFC-4549-9698-BC2430893ED2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C96828A-BBFC-4549-9698-BC2430893ED2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
